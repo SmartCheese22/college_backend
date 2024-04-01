@@ -12,6 +12,21 @@ router.get("/", async (req, res) => {
   res.send(all_posts);
 });
 
+router.delete("/:id", auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) return res.status(404).send("Post not found");
+    
+    await Reply.deleteMany({ post: post._id });
+    await post.remove();
+
+    res.status(200).send("Post and associated replies deleted successfully");
+  } catch (error) {
+    console.error("Error deleting post and replies:", error);
+    res.status(500).send("Internal server error");
+  }
+});
+
 router.get("/:id", async (req, res) => {
   try {
     const post = await Post.find({ _id: req.params.id }).populate(
