@@ -88,4 +88,25 @@ router.put("/like/:id", auth, async (req, res) => {
   res.send(post_new);
 });
 
+router.put("/report/:id", auth, async (req, res) => {
+  const post = await Post.findById(req.params.id);
+  if (!post) return res.status(400).send("Post doesn't exist");
+  if (post.author.equals(req.user._id))
+    return res.status(400).send("You can't report your own post");
+
+  const reportsArray = post.reports;
+  const index = reportsArray.indexOf(req.user._id);
+  if (index === -1) {
+    reportsArray.push(req.user._id);
+  } else {
+    reportsArray.splice(index, 1);
+  }
+
+  post.reports = reportsArray;
+  await post.save();
+
+  const updatedPost = await Post.findById(post._id).populate("author", "name username");
+  res.send(updatedPost);
+});
+
 module.exports = router;
