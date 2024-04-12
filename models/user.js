@@ -35,6 +35,10 @@ const userSchema = new mongoose.Schema({
     enum: ['collegeS', 'collegeG', 'Admin'],
     required: true, // User type is required during registration
   },
+  isVerified: {
+    type: Boolean,
+    default: false, // Default value set to false
+  },
   AcademicOpinion: {
     type: String,
   },
@@ -68,30 +72,4 @@ userSchema.methods.generateAuthToken = function () {
   return token;
 };
 
-// for registering validation
-// function validateUser(user) {
-//   const schema = Joi.object({
-//     name: Joi.string().required().min(5).max(50),
-//     username: Joi.string().required().min(3).max(50),
-//     email: Joi.string().required().min(5).max(255).email(),
-//     password: Joi.string().required().min(5).max(1024),
-//     userType: Joi.string().valid("collegeS", "collegeG").required(),
-//     college: Joi.when("userType", { is: "collegeG", then: Joi.string().required() }),
-//     branch: Joi.when("userType", { is: "collegeG", then: Joi.string().required() }),
-//     year: Joi.when("userType", { is: "collegeG", then: Joi.string().required() }),
-//   });
-//   return schema.validate(user);
-// };
-
-// for login validation
-// function validates(user) {
-//   const schema = Joi.object({
-//     email: Joi.string().min(5).max(255).required().email(),
-//     password: Joi.string().min(5).max(1024).required(),
-//   });
-//   return schema.validate(user);
-// }
-
 exports.User = User;
-// exports.validates = validates;
-// exports.validateUser = validateUser;
