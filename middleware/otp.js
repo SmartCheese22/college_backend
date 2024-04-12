@@ -28,7 +28,7 @@ const sendOTP = async (email, otpCode) => {
             from: process.env.MAIL_USER,
             to: email,
             subject: "OTP Verification",
-            html: `<p>Your OTP code is: <strong>${otpCode}</strong></p>`,
+            html: `<p>Your OTP for registration to College Pathfinder is: <strong>${otpCode}</strong></p>`,
         });
         console.log("Email info: ", info);
         return info;
