@@ -48,6 +48,28 @@ router.post("/register", async (req, res) => {
   }
 });
 
+router.put('/verify/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { isVerified } = req.body;
+
+    if (typeof isVerified !== 'boolean') {
+      return res.status(400).send('Invalid request');
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(id, { isVerified }, { new: true });
+
+    if (!updatedUser) {
+      return res.status(404).send('User not found');
+    }
+
+    return res.send(updatedUser);
+  } catch (error) {
+    console.error('Error updating isVerified status:', error);
+    return res.status(500).send('Internal Server Error');
+  }
+});
+
 router.get("/user-count", async (req, res) => {
   try {
     const collegeSUsers = await User.find({ userType: 'collegeS' });
