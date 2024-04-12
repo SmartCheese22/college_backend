@@ -9,8 +9,8 @@ const users = require("./routes/users");
 const posts = require("./routes/posts");
 const tags = require("./routes/tags");
 const replies = require("./routes/replies");
+const otp = require("./routes/otp");
 const app = express();
-
 
 let mongoDBURL = process.env.mongoDBURL;
 
@@ -37,6 +37,7 @@ app.use("/users", users);
 app.use("/posts", posts);
 app.use("/tags", tags);
 app.use("/reply", replies);
+app.use("/otp",otp);
 
 const port = process.env.PORT || 4000;
 
